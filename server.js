@@ -20,7 +20,6 @@ const onError = error => {
   if (error.syscall !== "listen") {
     throw error;
   }
-
   const bind = typeof port === "string" ? "pipe" + port : "port " + port;
   switch (error.code) {
     case "EACCES":
@@ -40,7 +39,7 @@ const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === "string" ? "pipe" + addr : "port" + port;
   debug("Listening on " + bind);
-}
+};
 
 const port = normalizePort(process.env.PORT || "3000");
 app.set('port', port);
