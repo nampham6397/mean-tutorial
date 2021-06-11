@@ -2,14 +2,15 @@ const path = require("path");
 const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-
+const cors = require('cors')
 const postsRoutes = require("./routes/posts");
+const userRoutes = require("./routes/user");
 
 const app = express();
 
 mongoose
   .connect(
-    "mongodb+srv://nam:4QLmpVUqAoyT7Vyn@cluster0.or9d9.mongodb.net/angular-03-finished?retryWrites=true&w=majority"
+    "mongodb+srv://nam:" + process.env.MONGO_ATLAS_PW + "@cluster0.or9d9.mongodb.net/mean-tutorial?retryWrites=true&w=majority"
     )
   .then(() => {
     console.log('Connected to database');
@@ -21,6 +22,7 @@ mongoose
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false }));
 app.use("/images", express.static(path.join("backend/images")));
+app.use(cors());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,5 +38,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/posts", postsRoutes);
+app.use("/api/user", userRoutes);
 
 module.exports = app;
